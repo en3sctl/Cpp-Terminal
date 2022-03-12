@@ -146,3 +146,6 @@ int main()
     problem2();
     problem3();
     problem4();
+    
+    return 0;
+}
