@@ -4,18 +4,6 @@
 #include <iostream>
 using namespace std;
 
-void Problem1()
-{
-    /*Write and test a program which
-    •Asks the user to enter three numbers;
-    •Reads them in;
-    •Then,
-    –if preprocesor macro GETMAX is defined, writes the largest number on thescreen;
-    –if preprocesor macro GETMIN is defined, writes the smallest number;
-    –if both macros are defined, wites both the smallest and the largest numbers;
-    –if none of them is defined, the compilation should fail.*/
-}
-
 void Problem2()
 {
     /*Write a program solving quadratic equations (ax2+bx+c= 0)
@@ -174,7 +162,6 @@ void hailstone(int n)
 
 int main()
 {
-    Problem1();
     Problem2();
     Problem3();
     Problem4();
