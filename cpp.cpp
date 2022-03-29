@@ -68,11 +68,19 @@ char* reverse(char* cstr)
 
 size_t words(const char* cstr)
 {
+	int state = OUT;
 	int count = 0;
 
-	while (*cstr != '\0') {
-		if (*cstr == ' ')
-			count++;
+	while (*cstr) {
+		if (*cstr == ' ' || *cstr == '\n' || *cstr == '\t')
+			state = OUT;
+
+		else if (state == OUT) { // If next character is not a word separator and					
+								 // state is OUT, then set the state as IN and
+			state = IN;
+			++count;
+		}
+		++cstr; //move to the next character
 	}
 	return count;
 }
