@@ -1,0 +1,113 @@
+package Swing;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Frame extends JFrame {
+
+    public Frame(){
+        setVisible(true); //show our window
+        setSize(500,500); //window size
+        setLocationRelativeTo(null); //show our window center
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Stop the frame
+                                                        //App closing when we close the window
+
+        JPanel panel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g){
+                super.paintComponent(g);
+
+                int width = getWidth() - 1;
+                int height = getHeight() - 1;
+
+                g.setColor(Color.red);
+
+                for (int i = 10; i < Math.min(width,height)/2; i+=10) {
+                    g.drawRect(i,i,width - i*2,height - i*2);
+
+                }
+            }
+        };
+        add(panel);
+    }
+}
+//============================================================================
+
+package Swing;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class LayoutManager extends JFrame {
+
+    public LayoutManager(){
+
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BorderLayout());
+
+        JButton b1 = new JButton("Page Start");
+        JButton b2 = new JButton("Page End");
+        JButton b3 = new JButton("LineStart");
+        JButton b4 = new JButton("LineEnd");
+        JButton b5 = new JButton("Center");
+
+        b5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("B5 Clicked");
+                b5.setText("Clicked");
+            }
+        });
+
+        JPanel pageStartPanel = new JPanel();
+        pageStartPanel.setLayout(new FlowLayout());
+        pageStartPanel.add(b1);
+        pageStartPanel.add(new JButton("EXIT"));
+
+        jPanel.add(pageStartPanel, BorderLayout.PAGE_START);
+        jPanel.add(b2, BorderLayout.PAGE_END);
+        jPanel.add(b3, BorderLayout.LINE_START);
+        jPanel.add(b4, BorderLayout.LINE_END);
+        jPanel.add(b5, BorderLayout.CENTER);
+
+        add(jPanel);
+
+        setVisible(true); //show our window
+        setSize(500,500); //window size
+        setLocationRelativeTo(null); //show our window center
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Stop the frame
+                                                        //App closing when we close the window
+
+    }
+}
+//==============================================================================
+
+package Swing;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class TextField extends JFrame{
+
+    public TextField(){
+
+        JTextArea jTextArea = new JTextArea();
+        add(jTextArea);
+
+        JScrollPane jScrollPane = new JScrollPane(jTextArea);
+        add(jScrollPane);
+
+        jTextArea.setFont(new Font(Font.SERIF, Font.ITALIC | Font.BOLD, 30));
+        jTextArea.setBackground(Color.YELLOW); //background color
+        jTextArea.setForeground(Color.GRAY); //font color
+
+        setVisible(true); //show our window
+        setSize(500,500); //window size
+        setLocationRelativeTo(null); //show our window center
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Stop the frame
+                                                        //App closing when we close the window
+
+    }
+}
