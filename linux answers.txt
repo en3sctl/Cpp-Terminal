@@ -1,0 +1,218 @@
+finger | cut -f1 -d' ' | egrep $THEUSER | wc -l (onceki dersten 8.sanirim)
+
+==========================================================
+
+while(( `finger | cut -f1 -d' ' | egrep $THEUSER | wc -l` != 3))
+do
+done
+echo "$THEUSER logged in 3 times."
+
+==========================================================
+
+head -20 file.txt | tail -1
+
+==========================================================
+
+M=$1
+N=$2
+
+head -$N $3 | tail -$(($N-$M+1))
+
+==========================================================
+
+lines=`wc -l $1 | cut -f1 -d' '`
+
+echo $lines (dosyada kac satir oldugunu yazdirir sadece sayi olarak)
+==========================================================
+
+lines=`wc -l $1 | cut -f1 -d' '`
+
+echo $(( $lines/2 )) 
+echo $(( $lines/2+1 )) ->satirin ortasini buluyorum
+
+==========================================================
+
+lines=`cat $1 | wc -l`
+
+if (( $lines % 2 == 0 )) ; then
+
+	mid1=$(( $lines/2 )) 
+ 	mid2=$(( $lines/2+1 )) 
+	head $mid1 $1 | tail -1
+	head $mid2 $1 | tail -1
+else
+	mid=$(( $lines/2+1 ))
+	head $mid $1 | tail -1
+fi
+
+==========================================================
+
+for arg in $@
+do
+	str=$arg" "$str
+done
+
+echo $str -> girilen tum argumanlari tersten yazdirir
+
+==========================================================
+
+echo "Please select argument: "
+read argnr
+
+array=($@)
+
+echo "You selected: ${array[$argnr]}" 
+
+-> read ile kullanicidan veri alinir. Bu cevapta girilen argumanlari
+icinden birini seciyoruz ve arrayin icinden onu index numarasi ile cekip
+ekrana bastiriyoruz.
+
+==========================================================
+
+ls Java/*.java -> java dosyasindaki java uzantili dosyalarin hepsini gosterir
+
+==========================================================
+
+for file in `ls $1`
+do
+	if [ -f $1/$file ] ; then
+
+	lines=`wc -l $1/$file | cut -f1 -d' '`
+	mid=$(( $lines/2+1 ))
+	midl=`head -$mid $1/$file | tail -1`
+	echo "The middle line of $1/$file is: $midl"
+	
+	fi
+done
+
+-> klasorun icindeki her bir dosyanin icindeki orta satiri ayri ayri bulur 
+ve yazdirir.
+
+==========================================================
+
+if (( $1 >= 0 )) ; then
+	result=1
+	for (( i=1 ; i<=$1 ; i++ ))
+	do
+		result=$(( result*$i ))
+	done	
+	echo "Factoriel $1 is $result "
+else
+	echo "Not positive"
+fi
+-> faktoriyel bulma bu sekilde $isaretli sayiyi konsolda biz veriyoruz
+
+==========================================================
+
+
+if (( $1 >= 0 )) && (( $2 > $1 )) ; then
+	for (( j=$1 ; j <= $2 ; j++ ))
+	do
+		result=1
+		for (( i=1 ; i<=$j ; i++ ))
+		do
+			result=$(( result*$i ))
+		done	
+		echo "Factoriel $j is $result "
+	done
+else
+	echo "Not positive"
+fi 
+
+-> verilen araliktaki faktoriyeli bulur. 3 ve 7 arasi mesela
+3un 4un 5in 6nin 7nin ayri ayri faktoriyeli basar ekrana tek tek
+
+
+==========================================================LAB6-Soru 7 sanirsam 
+
+if (( $# == 2 )) ; then
+	if [ -d $1 ] ; then
+		for dir in `ls $1`
+		do
+			if [ -d $1/$dir ] ; then
+				echo "Size of $1/$dir is "`ls -ld $1/$dir | cut -f5 -d' '` -> burdaki -f5 ls -l deki dosyanin boyutununun oldugu kolon 
+												      -f6 yazsaydik gidip orda yazan ay ismini alacakti
+			fi	
+			if [ -x $1/$dir ] ; then
+				echo $dir >> $2
+			fi
+		done
+	else
+		echo "Not a directory"
+	fi
+else		
+	echo "There has to be 2 arguments"
+fi
+
+-> subdirectoryleri buluyor. boyutunu bastiriyor vs 
+
+==========================================================
+
+cat $1 | while read line 
+do
+	if [[ `echo $line | egrep '^[0-9]+ [0-9]+$'` != "" ]] ; then
+			left=`echo $line | cut -f1 -d' '`
+			right=`echo $line | cut -f2 -d' '`
+			echo "$left+$right=$(($left+$right))" 
+			echo "$left-$right=$(($left-$right))" 
+			echo "$left*$right=$(($left*$right))" 
+		
+			if (($right != 0)) ; then
+				echo "$left/$right=$(($left/$right))"
+			else
+				echo "$left/$right, can't divide by 0"
+			fi
+		else
+			echo "$line is not a pair of number"
+		fi
+done > $2
+cat $2
+
+==========================================================
+
+add(){
+	result=0
+	for e in $@
+	do
+		result=$(($result+$e))
+	done	
+	echo "Sum of $line is $result"
+}
+
+prod(){
+	result=1
+	for e in $@
+	do
+		result=$(($result*$e))
+	done	
+	echo "Product of $line is $result"
+}
+
+cat $1 | while read line
+do
+	if [[ `echo $line | egrep '^([0-9]+ )+[0-9]+$'` != "" ]] ; then #^[0-9]sayi ile basla ve bir bosluk at ustune tekrar sonu sayiyla mi bitiyor onu kontrol et
+		if [ $2 == "-s" ] ; then
+			add $line
+		elif [ $2 == "-p" ] ; then
+			prod $line
+		elif [ $2 == "-sp" ] || [ $2 == "-ps" ] ; then
+			add $line
+			prod $line
+		fi
+	else
+		echo "$line has elements that are not numbers"
+	fi
+done
+
+==========================================================
+
+for (( j=1 ; j<=12 ; j++ ))
+do
+	for (( i=1 ; i<=12 ; i++ ))
+	do
+		echo -n $(($j*$i))" "
+	done
+	echo ""
+done
+
+========================================================== multiplication table
