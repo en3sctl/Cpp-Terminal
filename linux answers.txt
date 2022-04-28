@@ -216,3 +216,132 @@ do
 done
 
 ========================================================== multiplication table
+
+
+========================================================== TEST SORULARI CEVAPLARI
+
+
+egrep '.{7}$' file.txt | sort | uniq | wc -l  ============== 1.sorunun cevabi
+
+===============================================================================
+
+for file in $@
+do
+	if [ -f $file ] ; then
+		if head -10 $file | egrep 'main\(\)' > /dev/null; then
+			echo $file	
+		fi
+	fi
+done ==================================================== 2.sorunun cevabi
+
+Bu soru icin 2 3 tane mainfile.txt adinda oylesine dosya olusturduk ve iclerine sadece main() yazdiktan sonra
+konsolda 
+./script.sh mainfile1.txt file.txt mainfile2.txt mainfile3.txt
+mainfile1.txt
+mainfile2.txt
+
+bu sekilde cagirdik ve bu ciktiyi aldik. 
+
+===============================================================================
+
+maxsize=0
+
+function searchdir {
+	for file in `ls $1` # dolar 1 . ile baslar ve tek tek altindakileri dosyalari kontrol eder
+	do
+		if [ -f $1/$file ] && [ -r $1/$file ] ; then
+			size=`wc -c $1/$file | cut -f1 -d' '`
+			if (( $size >= $maxsize ))  ; then
+				maxsize=$size
+				maxsizepath=$1/$file	
+				#echo "Switch: $maxsizepath, $size" su satiri yazmasakta olur 	
+			fi				
+		elif [ -d $1/$file ] ; then
+			searchdir $1/$file 
+		fi
+	done
+}
+
+searchdir . #current directory "."
+echo "File $maxsizepath has the biggest size of $maxsize."
+
+=============================================================================== 3.sorunun cevabi
+
+
+for file in `ls .`
+do
+	if [ -f $file ] ; then
+		egrep 'main\(\)' $file | wc -l 
+	fi
+done
+
+
+=============================================================================== 2.grubun 1.sorusunun cevabi
+
+
+for file in $@
+do
+	if [ -f $file ] ; then
+		lines=`sort $file | uniq | wc -l`
+		if (( $lines >= 17 )) ; then
+			echo $file
+		fi
+	fi
+done
+
+
+=============================================================================== 2.grubun 2.sorusunun cevabi
+
+
+minwords=
+for file in `find .`
+do
+	if [ -f $file ] ; then
+		minwords=`cat $file | wc -w`
+		break
+	fi
+done
+
+function searchdir {
+	for file in `ls $1` # dolar 1 . ile baslar ve tek tek altindakileri dosyalari kontrol eder
+	do
+		if [ -f $1/$file ] && [ -r $1/$file ] ; then
+			words=`cat $1/$file | wc -w`
+			if (( $words <= $minwords )) ; then
+				minwords=$words
+				minwordpath=$1/$file
+				minwordpathdir=$1
+			fi					
+		elif [ -d $1/$file ] && [ -r $1/$file ] ; then
+			searchdir $1/$file 
+		fi
+	done
+}
+
+searchdir . #current directory "."
+echo "File $minwordpath in subdirectory $minwordpathdir has the least number of words $minwords."
+
+
+=============================================================================== 2.grubun 3.sorusunun cevabi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
