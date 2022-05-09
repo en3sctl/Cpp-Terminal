@@ -7,13 +7,13 @@ FROM emp e, dept d
 WHERE e.sal BETWEEN '1000' AND '2000';
 
 --3
-SELECT d.deptno, d.dname
-FROM dept d
-ORDER BY d.deptno ASC;
+SELECT deptno, dname
+FROM dept 
+ORDER BY deptno ASC;
 
 --4
-SELECT DISTINCT e.job
-FROM emp e;
+SELECT DISTINCT job
+FROM emp;
 
 --5
 SELECT * FROM emp
@@ -21,25 +21,25 @@ WHERE deptno = 10 or deptno = 20
 ORDER BY job;
 
 --6
-SELECT e.ename
-FROM emp e
-WHERE e.deptno = '20' AND e.job = 'CLERK';
+SELECT ename
+FROM emp
+WHERE deptno = '20' AND job = 'CLERK';
 
 --7
-SELECT e.name
-FROM emp e
-WHERE e.ename LIKE '%TH%' OR e.ename LIKE '%LL%';
+SELECT ename
+FROM emp 
+WHERE ename LIKE '%TH%' OR ename LIKE '%LL%';
 
 --8
-SELECT e.name, e.sal
-FROM emp e
-WHERE e.sal NOT IN '1000' ;
+SELECT ename, sal
+FROM emp 
+WHERE sal NOT IN '1000' ;
 
 --9
-SELECT e.ename, e.job, e.sal
-FROM emp e 
-WHERE e.ename NOT LIKE '%L%'
-AND e.sal NOT IN ('800', '1600', '3000');
+SELECT ename, job, sal
+FROM emp 
+WHERE ename NOT LIKE '%L%'
+AND sal NOT IN ('800', '1600', '3000');
 
 --10
 SELECT ename, job, sal, mgr
@@ -52,9 +52,9 @@ FROM emp
 WHERE mgr IS NOT NULL;
 
 --12
-SELECT e.ename, e.mgr, e.deptno 
-FROM emp e
-WHERE e.deptno = '10';
+SELECT ename, mgr, deptno 
+FROM emp
+WHERE deptno = '10';
 
 --13
 SELECT ename, hiredate
@@ -74,39 +74,36 @@ ORDER BY sal DESC;
 SELECT ename, comm, 12*sal + NVL(comm, 0)
 FROM emp;
 
---15--degistir
-SELECT e.ename, e.deptno, e.job, e.hiredate
-FROM emp e
-WHERE e.ename = 'SMITH'
-    AND e.job = 'CLERK'
-    AND e.deptno = '20'
-    AND e.hiredate = '17-DEC-80';
+--15--Hata var biryerde
+SELECT ename || ' has held the position of ' || job || CLERK || ' in dep ' || deptno || 20 || ' since ' || '80/12/17'
+FROM emp, dept;
     
-    SELECT ename || ' works in ' || deptno || ' department ' WHO_WHERE
-    FROM emp;
-    
---------------------------------------------------------------------------------------2.HAFTA TASKLARI--------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------2.HAFTA TASKLARI--------------------------------------------------------------------------------------------------------------------------
 --1
-SELECT * FROM emp e, dept d;
+SELECT * FROM emp e 
+JOIN dept d ON e.deptno = d.deptno;
 
 --2
-SELECT e.ename, d.dname
-FROM emp e, dept d
-ORDER BY e.ename ASC;
+SELECT ename, dname
+FROM emp
+JOIN dept ON emp.deptno = dept.deptno
+ORDER BY ename ASC;
 
 --3
-SELECT e.ename, d.deptno, d.dname
-FROM emp e, dept d;
+SELECT emp.ename, dept.deptno, dname
+FROM emp
+JOIN dept ON emp.deptno = dept.deptno;
 
 --4
-SELECT e.ename, e.sal, d.dname, d.loc
-FROM emp e, dept d
-WHERE e.sal > '1500';
+SELECT ename, sal, dname, loc
+FROM emp
+JOIN dept ON emp.deptno = dept.deptno
+WHERE sal > '1500';
 
 --5
-SELECT e.ename, e.job, e.sal, grade
-FROM emp e
-JOIN salgrade ON e.sal >= losal AND e.sal <= hisal;
+SELECT ename, job, sal, grade
+FROM emp
+JOIN salgrade ON sal >= losal AND sal <= hisal;
 
 --6
 SELECT * FROM emp
@@ -114,14 +111,16 @@ JOIN salgrade  ON sal >= losal AND sal <= hisal
 WHERE grade = '3';
 
 --7
-SELECT e.ename, d.loc
-FROM emp e, dept d
-WHERE d.loc = 'DALLAS';
+SELECT ename, loc
+FROM emp
+JOIN dept ON emp.deptno = dept.deptno
+WHERE loc = 'DALLAS';
 
---8--NOT FINISHED
-SELECT e.name, d.deptno, d.dname
-FROM emp e, dept d
-WHERE d.deptno = '30' OR d.deptno = '40';
+--8
+SELECT ename, emp.deptno 
+FROM emp 
+JOIN dept ON emp.deptno = dept.deptno 
+WHERE emp.deptno = 30 OR emp.deptno = 40;
 
 --9
 SELECT e.*, mgr.sal AS "MGR SAL"
@@ -130,15 +129,25 @@ JOIN emp mgr ON e.mgr = mgr.empno
 WHERE e.sal < mgr.sal;
 
 --10
-SELECT DISTINCT e.ename, e.job
-FROM emp e, dept d
-WHERE  d.deptno = '10' OR d.deptno = '30';
+SELECT DISTINCT ename, job
+FROM emp, dept
+WHERE dept.deptno = '10' OR dept.deptno = '30';
 
 --11
-SELECT DISTINCT e.ename, e.job
-FROM emp e, dept d
-WHERE eid = e.empno AND did = d.deptno
-AND (d.deptno = '10' OR d.deptno = '30')
+SELECT job 
+FROM emp 
+WHERE deptno = 10 AND job IN 
+            (SELECT job 
+            FROM emp 
+			WHERE deptno = 30);
+            
+--12
+SELECT DISTINCT job 
+FROM emp 
+WHERE emp.deptno = 10 AND job NOT IN
+				(SELECT job 
+				FROM emp 
+				WHERE deptno = 30);
 
 
 
